@@ -34,7 +34,7 @@ Go to `./config.py`
 | `csv_save_path`    | `"./checkpoint/csv_files.txt"`       | No use for now                                               |
 | `sony_img_path`    | `./Sony`                             | Dataset path                                                 |
 
-==Notice:==
+**==Notice:==**
 
 Current code will consume much RAM in preprocessing (Amplifier module in this code `dataloader.py -> get_tgt_and_low()`). I still cannot figure out how to cut this memory usage.
 
@@ -42,6 +42,7 @@ For instance, setting `debug_size` to `150` will consume about 55GB RAM containi
 
 ### Tree
 
+```
 ├── Implementation-of-Restoring-Extremely-Dark-Images-in-Real-Time
 │   ├── LICENSE
 │   ├── README.md
@@ -58,8 +59,9 @@ For instance, setting `debug_size` to `150` will consume about 55GB RAM containi
 ├── Sony_test_list.txt
 ├── Sony_train_list.txt
 ├── Sony_val_list.txt
+```
 
-==Notice:== If your dataset is in another directory, please modify `sony_img_path`.
+==**Notice:**== If your dataset is in another directory, please modify `sony_img_path`.
 
 ### Training
 
