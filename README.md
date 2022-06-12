@@ -9,6 +9,70 @@ Official Implementation: https://github.com/MohitLamba94/Restoring-Extremely-Dar
 
 SID dataset https://github.com/cchen156/Learning-to-See-in-the-Dark
 
+## Usage
+
+### Configuration
+
+Go to `./config.py`
+
+| Variables          | Default                              | Meaning                                                      |
+| ------------------ | ------------------------------------ | ------------------------------------------------------------ |
+| `base_lr`          | `1e-4`                               | Base learning rate for the model                             |
+| `reduce_lr_by`     | `0.1`                                | If [atWhichReduce] epoch comes, lr will reduce by [reduce_lr_by] |
+| `atWhichReduce`    | `[500000]`                           | At which epoch will lr reduce                                |
+| `batch_size`       | `8`                                  | Batch size                                                   |
+| `atWhichSave`      | `[2,100002,150002,200002,250002,...` | At which epoch will model be saved                           |
+| `max_iter`         | `1000005`                            | Max training iterations                                      |
+| `debug`            | `True`                               | Debug Mode activated or not                                  |
+| `debug_iter`       | `100`                                | If in debug mode, how many training iterations will be operated |
+| `debug_size`       | `150`                                | If in debug mode, how many training images and valid images will be loaded # NOTICE: total loaded img num = 2*debug_size |
+| `metric_avg_file`  | `"./checkpoint/metric_average.txt"`  | No use for now                                               |
+| `test_amp_file`    | `"./checkpoint/test_amp.txt"`        | No use for now                                               |
+| `train_amp_file`   | `"./checkpoint/train_amp.txt"`       | No use for now                                               |
+| `weight_save_path` | `"./checkpoint/weights"`             | Where the model will be saved                                |
+| `img_save_path`    | `"./checkpoint/images"`              | Where the intermediate processing images will be saved       |
+| `csv_save_path`    | `"./checkpoint/csv_files.txt"`       | No use for now                                               |
+| `sony_img_path`    | `./Sony`                             | Dataset path                                                 |
+
+==Notice:==
+
+Current code will consume much RAM in preprocessing (Amplifier module in this code `dataloader.py -> get_tgt_and_low()`). I still cannot figure out how to cut this memory usage.
+
+For instance, setting `debug_size` to `150` will consume about 55GB RAM containing 150 images in training set and 150 images in validation set. So if your RAM capacity exceeded, ==please try smaller `debug_size`==.
+
+### Tree
+
+├── Implementation-of-Restoring-Extremely-Dark-Images-in-Real-Time
+│   ├── LICENSE
+│   ├── README.md
+│   ├── __pycache__
+│   ├── checkpoint
+│   ├── config.py
+│   ├── dataloader.py
+│   ├── model.py
+│   ├── train.py
+│   └── utils.py
+├── Sony
+│   ├── long
+│   └── short
+├── Sony_test_list.txt
+├── Sony_train_list.txt
+├── Sony_val_list.txt
+
+==Notice:== If your dataset is in another directory, please modify `sony_img_path`.
+
+### Training
+
+```
+python train.py
+```
+
+### 一些疑问
+
+1. 作者在原文中提到 他使用了 ”Intel Xeon E5- 1620V4 CPU with 64GB RAM and GTX 1080Ti GPU to implement our network. “ 但是我自己的测试结果是 64G甚至不能载入全部的数据集，我就很好奇他是咋弄的。
+2. 作者还提到了并行优化，但是在代码里完全没有体现，具体可以参看`model.py -> forward()`
+
+
 ## Contribution:
 1. New DL arch for low-light single image restoration: faster, cheaper and fewer operations
 2. Parallelism strategy with no effect on restoration
